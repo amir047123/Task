@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+//app.js
+
+
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import RootLayout from "./Layouts/RootLayout";
+import Home from "./Pages/Home";
+import { PublicRoutes } from "./Routes/PublicRoutes";
+import { UserRoutes } from "./Routes/UserRoutes";
+import UserDashboard from "./Components/UserDashboard/UserDashboard";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<RootLayout />}>
+        <Route index element={<Home />} />
+        {PublicRoutes.map(({ path, Component }, index) => (
+          <Route key={index} path={path} element={<Component />} />
+        ))}
+      </Route>
+
+      {/* User Routes */}
+      <Route path="/user-dashboard" element={<RootLayout />}>
+        <Route index element={<UserDashboard />} />
+        {UserRoutes.map(({ path, Component }, index) => (
+          <Route key={index} path={path} element={<Component />} />
+        ))}
+      </Route>
+    </Routes>
   );
 }
 
