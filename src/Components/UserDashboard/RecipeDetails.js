@@ -22,7 +22,7 @@ export default function RecipeDetails() {
   }, [id]);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4">
+    <div className=" min-h-screen p-4">
       <section>
         <div className="container px-6 mx-auto">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-8 lg:grid-cols-12">

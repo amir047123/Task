@@ -26,7 +26,7 @@ export default function RecipeCard({ recipe }) {
         </div>
         {/*  <!-- Action base sized basic button --> */}
         <div className="flex justify-end p-4 pt-0">
-        <Link to={`/recipe-details/${recipe._id}`}>
+        <Link to={`/recipe-details/${recipe?._id}`}>
             <button className="inline-flex h-8 w-full sm:w-auto items-center justify-center gap-1 whitespace-nowrap rounded bg-primary px-3 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
               <span>View Recipes!</span>
             </button>
