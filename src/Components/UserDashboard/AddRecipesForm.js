@@ -2,6 +2,10 @@ import React, { useRef, useState } from "react";
 import JoditEditor from "jodit-react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import auth from "../../Firebase/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { User } from "lucide-react";
+import GetSingleUserHook from "../../Hooks/GetSingleUserHook";
 export default function AddRecipesForm() {
   const [title, setTitle] = useState("");
   const [recipeImage, setRecipeImage] = useState(null);
@@ -10,6 +14,9 @@ export default function AddRecipesForm() {
   const [category, setCategory] = useState("");
   const [recipeDetails, setRecipeDetails] = useState("");
   const inputFileRef = useRef(null);
+  const [user] = useAuthState(auth);
+  const singleUserData = GetSingleUserHook();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +33,8 @@ export default function AddRecipesForm() {
         country,
         category,
         recipeDetails,
+        user: user.email,
+        userId:singleUserData._id
       };
 
       const response = await axios.post(

@@ -6,6 +6,7 @@ import CountUp from "react-countup";
 import CategoriesImage1 from "../../assets/Categories/Rice.png";
 import CategoriesImage2 from "../../assets/Categories/fish.png";
 import CategoriesImage3 from "../../assets/Categories/meat.png";
+import { Link } from "react-router-dom";
 
 export default function Categories() {
   const [categoriesData, setCategoriesData] = useState({
@@ -16,7 +17,9 @@ export default function Categories() {
 
   useEffect(() => {
     // Fetch data for Rice Dishes
-    fetch("http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Rice Dishes")
+    fetch(
+      "http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Rice Dishes"
+    )
       .then((response) => response.json())
       .then((data) => {
         setCategoriesData((prevData) => ({
@@ -29,7 +32,9 @@ export default function Categories() {
       });
 
     // Fetch data for Fish Dishes
-    fetch("http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Fish Dishes")
+    fetch(
+      "http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Fish Dishes"
+    )
       .then((response) => response.json())
       .then((data) => {
         setCategoriesData((prevData) => ({
@@ -42,7 +47,9 @@ export default function Categories() {
       });
 
     // Fetch data for Meat Dishes
-    fetch("http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Meat Dishes")
+    fetch(
+      "http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Meat Dishes"
+    )
       .then((response) => response.json())
       .then((data) => {
         setCategoriesData((prevData) => ({
@@ -65,9 +72,21 @@ export default function Categories() {
       </div>
 
       <div className="flex flex-wrap lg:flex-nowrap justify-center items-center gap-6 py-10 px-4">
-        <CategoryCard image={CategoriesImage1} title="Rice Dishes" count={categoriesData.rice.length} />
-        <CategoryCard image={CategoriesImage2} title="Fish Dishes" count={categoriesData.fish.length} />
-        <CategoryCard image={CategoriesImage3} title="Meat Dishes" count={categoriesData.meat.length} />
+        <CategoryCard
+          image={CategoriesImage1}
+          title="Rice Dishes"
+          count={categoriesData.rice.length}
+        />
+        <CategoryCard
+          image={CategoriesImage2}
+          title="Fish Dishes"
+          count={categoriesData.fish.length}
+        />
+        <CategoryCard
+          image={CategoriesImage3}
+          title="Meat Dishes"
+          count={categoriesData.meat.length}
+        />
         {/* Add more CategoryCards if needed */}
       </div>
     </div>
@@ -76,12 +95,17 @@ export default function Categories() {
 
 function CategoryCard({ image, title, count }) {
   return (
-    <div className="flex flex-col justify-center items-center bg-white px-4 py-5 rounded-2xl shadow-md border w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+    <div className="flex flex-col justify-center items-center bg-white px-4 py-5 rounded-2xl shadow-md border w-full sm:w-1/2 md:w-1/3 lg:w-1/4 ring-primary ring-1">
       <div className="bg-customCardBg p-2 rounded-full">
         <img src={image} alt={title} />
       </div>
       <div className="text-center mt-4">
-        <h1 className="font-bold cursor-pointer transition-all hover:scale-105">{title}</h1>
+        <Link to="recipe">
+        
+          <h1 className="font-bold cursor-pointer transition-all hover:scale-105">
+            {title}
+          </h1>
+        </Link>
         <CountUp end={count} duration={20} />
       </div>
     </div>

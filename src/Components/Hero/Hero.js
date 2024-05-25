@@ -30,10 +30,11 @@ export default function Hero() {
             </h1>
             <p>Dive into a world of culinary wonders with FlavorFusion.</p>
             <div className="flex justify-start items-center gap-5">
-              <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary hover:bg-primary-700 hover:scale-105">
-                <span>See Recipes</span>
-              </button>
-
+              <Link to="recipe">
+                <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary hover:bg-primary-700 hover:scale-105">
+                  <span>See Recipes</span>
+                </button>
+              </Link>
               <p className="">Add Recipes</p>
               <div
                 className="bg-primary p-3 text-white rounded-full cursor-pointer transition duration-300 ease-in-out hover:scale-105"

@@ -66,6 +66,14 @@ export default function AllRecipes() {
     }
   });
 
+  const updateRecipeInParentComponent = (updatedRecipe) => {
+    // Update the recipes state with the updated recipe
+    const updatedRecipes = recipes.map((recipe) =>
+      recipe._id === updatedRecipe._id ? updatedRecipe : recipe
+    );
+    setRecipes(updatedRecipes);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -159,7 +167,8 @@ export default function AllRecipes() {
                       recipe.category === selectedCategory
                   )
                   .map((recipe, index) => (
-                    <RecipeCard key={index} recipe={recipe} />
+                    <RecipeCard key={index} recipe={recipe}   updateRecipeInParentComponent={updateRecipeInParentComponent}
+                    />
                   ))}
           </div>
         </div>

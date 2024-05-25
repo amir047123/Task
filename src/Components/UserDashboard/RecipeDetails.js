@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Loading from "../../Shared/Loading/Loading";
 
-export default function RecipeDetails() {
+
+const RecipeDetails = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [relatedRecipes, setRelatedRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -36,6 +38,8 @@ export default function RecipeDetails() {
     fetchRecipe();
   }, [id]);
 
+  
+
   if (loading) {
     return <Loading />;
   }
@@ -45,6 +49,7 @@ export default function RecipeDetails() {
       <section>
         <div className="container mx-auto">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-8 lg:grid-cols-12">
+            {/* Recipe Details */}
             <div className="col-span-1 md:col-span-8 lg:col-span-7">
               <div className="p-4 bg-white rounded-lg shadow-md">
                 {recipe && (
@@ -80,23 +85,21 @@ export default function RecipeDetails() {
                 )}
               </div>
             </div>
+            
+            {/* Related Recipes Section */}
             <div className="col-span-1 md:col-span-8 lg:col-span-5 border p-5 rounded-md bg-white">
-              {recipe && (
-                <div
-                  className="relative"
-                  style={{ paddingBottom: "56.25%", height: 0 }}
-                >
+              <div className="relative">
+                {recipe && (
                   <iframe
                     src={recipe.youtubeVideo}
                     frameBorder="0"
                     allowFullScreen
-                    className="absolute top-0 left-0 w-full h-full"
+                    className="w-full h-full"
                     title="Recipe Video"
                   ></iframe>
-                </div>
-              )}
-
-              {/* Related Recipes Section */}
+                )}
+              </div>
+              
               <div className="mt-8">
                 <h2 className="text-2xl font-bold mb-4">Related Recipes</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -123,4 +126,6 @@ export default function RecipeDetails() {
       </section>
     </div>
   );
-}
+};
+
+export default RecipeDetails;

@@ -3,28 +3,35 @@ import { Trash } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../Firebase/Firebase";
 
 export default function RecipesTable() {
   const [recipes, setRecipes] = useState([]);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/recipes/getRecipes");
-        setRecipes(response.data.data); 
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/recipes/specific/?fieldName=user&fieldValue=${user.email}`
+        );
+        setRecipes(response.data.data);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
     };
 
     fetchRecipes();
-  }, []);
+  }, [user]);
 
   const handleDelete = async (_id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/v1/recipes/deleteRecipes/${_id}`);
+      await axios.delete(
+        `http://localhost:5000/api/v1/recipes/deleteRecipes/${_id}`
+      );
 
-      setRecipes(recipes.filter(recipe => recipe._id !== _id));
+      setRecipes(recipes.filter((recipe) => recipe._id !== _id));
 
       toast.success("Recipe deleted successfully!");
     } catch (error) {
