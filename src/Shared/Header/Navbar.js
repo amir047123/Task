@@ -4,8 +4,13 @@ import React, { useState } from "react";
 import logo from "../../assets/Logo/Logo.png";
 import { HandCoins, Phone, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAuthState, useSignInWithGoogle, useSignOut } from "react-firebase-hooks/auth";
+import {
+  useAuthState,
+  useSignInWithGoogle,
+  useSignOut,
+} from "react-firebase-hooks/auth";
 import auth from "../../Firebase/Firebase";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   // const { user, handleSignInWithGoogle, handleSignOut } =
@@ -14,7 +19,31 @@ export default function Navbar() {
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [user] = useAuthState(auth);
+
   
+  const handleSignUp = async () => {
+    await signInWithGoogle().then(data=>{
+      const name = data?.user?.displayName;
+      const img = data?.user?.photoURL;
+      const email = data?.user?.email;
+
+const info = { email:email,img:img,name:name,coin:50 };
+      fetch(
+        "http://localhost:5000/api/v1/user/addUser",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(info),
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          localStorage.setItem("accessToken", data?.token);
+          toast("Login Successful")
+        });
+    })
+  };
+
   return (
     <>
       <div className="border-b border-slate-200 bg-primary">
@@ -95,7 +124,7 @@ export default function Navbar() {
                   <span>Home</span>
                 </Link>
               </li>
-              
+
               <li role="none" className="flex items-stretch">
                 <Link
                   role="menuitem"
@@ -106,17 +135,18 @@ export default function Navbar() {
                   <span>Recipe</span>
                 </Link>
               </li>
-              {user&&<li role="none" className="flex items-stretch">
-                <Link
-                  role="menuitem"
-                  aria-haspopup="false"
-                  className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
-                  to="/user-dashboard/add-recipe"
-                >
-                  <span>Add Recipes</span>
-                </Link>
-              </li>}
-             
+              {user && (
+                <li role="none" className="flex items-stretch">
+                  <Link
+                    role="menuitem"
+                    aria-haspopup="false"
+                    className="flex items-center gap-2 py-4 transition-colors duration-300 hover:text-emerald-500 focus:text-emerald-600 focus:outline-none focus-visible:outline-none lg:px-8"
+                    to="/user-dashboard/add-recipe"
+                  >
+                    <span>Add Recipes</span>
+                  </Link>
+                </li>
+              )}
             </ul>
 
             <div className="ml-auto flex items-center justify-end px-6 lg:ml-0 lg:flex-1 lg:p-0 gap-3">
@@ -127,10 +157,12 @@ export default function Navbar() {
                     className="w-8 h-8 rounded-full cursor-pointer"
                     alt="User Profile"
                     title={user?.displayName}
-
                   />
                   <button
-                    onClick={()=>signOut()}
+                    onClick={async() => {
+                      await signOut();
+                      toast("Sign Out successful")
+                    }}
                     className="text-slate-700 hover:border-primary  hover:bg-primary hover:text-white transition duration-150 p-1 rounded-md"
                   >
                     Sign Out
@@ -138,7 +170,7 @@ export default function Navbar() {
                 </>
               ) : (
                 <button
-                  onClick={()=>signInWithGoogle()}
+                  onClick={handleSignUp}
                   className="text-slate-700 hover:border-primary rounded-md hover:shadow transition duration-150 flex justify-center items-center gap-1 p-1 hover:bg-primary hover:text-white "
                 >
                   <img
