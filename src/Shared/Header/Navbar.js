@@ -1,5 +1,3 @@
-// src/components/Navbar/Navbar.js
-
 import React, { useState } from "react";
 import logo from "../../assets/Logo/Logo.png";
 import { HandCoins, Phone, ShoppingCart } from "lucide-react";
@@ -8,13 +6,11 @@ import { useAuthState, useSignInWithGoogle, useSignOut } from "react-firebase-ho
 import auth from "../../Firebase/Firebase";
 
 export default function Navbar() {
-  // const { user, handleSignInWithGoogle, handleSignOut } =
-  //   useContext(AuthContext);
   const [signOut] = useSignOut(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [user] = useAuthState(auth);
-  
+
   return (
     <>
       <div className="border-b border-slate-200 bg-primary">
@@ -122,30 +118,31 @@ export default function Navbar() {
             <div className="ml-auto flex items-center justify-end px-6 lg:ml-0 lg:flex-1 lg:p-0 gap-3">
               {user ? (
                 <>
-                  <img
-                    src={user?.photoURL}
-                    className="w-8 h-8 rounded-full cursor-pointer"
-                    alt="User Profile"
-                    title={user?.displayName}
-
-                  />
+                  {user.photoURL && (
+                    <img
+                      src={user.photoURL}
+                      className="w-8 h-8 rounded-full cursor-pointer"
+                      alt="User Profile"
+                      title={user.displayName}
+                    />
+                  )}
                   <button
-                    onClick={()=>signOut()}
-                    className="text-slate-700 hover:border-primary  hover:bg-primary hover:text-white transition duration-150 p-1 rounded-md"
+                    onClick={() => signOut()}
+                    className="text-slate-700 hover:border-primary hover:bg-primary hover:text-white transition duration-150 p-1 rounded-md"
                   >
                     Sign Out
                   </button>
                 </>
               ) : (
                 <button
-                  onClick={()=>signInWithGoogle()}
+                  onClick={() => signInWithGoogle()}
                   className="text-slate-700 hover:border-primary rounded-md hover:shadow transition duration-150 flex justify-center items-center gap-1 p-1 hover:bg-primary hover:text-white "
                 >
                   <img
                     src="https://www.svgrepo.com/show/355037/google.svg"
-                    class="w-5 h-5"
+                    className="w-5 h-5"
                     alt="Google Icon"
-                  ></img>
+                  />
                   Sign In
                 </button>
               )}
