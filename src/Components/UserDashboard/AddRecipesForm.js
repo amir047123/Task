@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import JoditEditor from "jodit-react";
-
+import axios from "axios";
+import { toast } from "react-toastify";
 export default function AddRecipesForm() {
   const [title, setTitle] = useState("");
   const [recipeImage, setRecipeImage] = useState(null);
@@ -8,28 +9,64 @@ export default function AddRecipesForm() {
   const [country, setCountry] = useState("");
   const [category, setCategory] = useState("");
   const [recipeDetails, setRecipeDetails] = useState("");
+  const inputFileRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      title,
-      recipeImage,
-      youtubeVideo,
-      country,
-      category,
-      recipeDetails,
-    };
+    try {
+      const imgBBResponse = await uploadImageToImgBB(recipeImage);
 
-    console.log(formData);
+      const imageUrl = imgBBResponse.data.data.url;
 
-    // Reset form fields
-    setTitle("");
-    setRecipeImage(null);
-    setYoutubeVideo("");
-    setCountry("");
-    setCategory("");
-    setRecipeDetails("");
+      const formData = {
+        title,
+        recipeImage: imageUrl,
+        youtubeVideo,
+        country,
+        category,
+        recipeDetails,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/recipes/addRecipes",
+        formData
+      );
+
+      toast.success("Recipe added successfully!");
+
+      setTitle("");
+      setRecipeImage(null);
+      setYoutubeVideo("");
+      setCountry("");
+      setCategory("");
+      setRecipeDetails("");
+      inputFileRef.current.value = null;
+    } catch (error) {
+      console.error("Error posting data:", error);
+      toast.error("Failed to add recipe. Please try again later.");
+    }
+  };
+
+  const uploadImageToImgBB = async (imageFile) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    try {
+      const response = await axios.post(
+        "https://api.imgbb.com/1/upload?key=b111c4e726718eb5e46c7e54ce2204fa",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      throw new Error("Error uploading image to imgBB:", error);
+    }
   };
 
   return (
@@ -59,6 +96,7 @@ export default function AddRecipesForm() {
               accept="image/*"
               className="mt-1 block w-full border p-3"
               onChange={(e) => setRecipeImage(e.target.files[0])}
+              ref={inputFileRef}
             />
           </div>
           <div className="mb-4">
