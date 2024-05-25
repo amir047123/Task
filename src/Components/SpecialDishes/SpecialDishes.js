@@ -1,10 +1,26 @@
-import { ArrowRight, Heart } from "lucide-react";
-import Rectangle from "../../assets/Categories/Rectangle 24.png";
+import React, { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
+import axios from "axios";
 import RecipeCard from "../AllRecipes/RecipeCard";
+import { Link } from "react-router-dom";
 
 export default function SpecialDishes() {
-  // Array containing numbers from 1 to 4
-  const dishes = [1, 2, 3, 4];
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/recipes/getRecipes"
+        );
+        setRecipes(response.data.data);
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8 mx-auto">
@@ -18,20 +34,21 @@ export default function SpecialDishes() {
             <div>
               <h1 className="text-3xl font-bold">
                 Standout Recipes <br /> From{" "}
-                <span className="text-primary">Our Catagories</span>
+                <span className="text-primary">Our Categories</span>
               </h1>
             </div>
           </div>
-
-          <div className="md:flex items-center gap-2 hover:scale-105 transition-all cursor-pointer">
-            <p className="text-primary">See All</p>{" "}
-            <ArrowRight className="text-primary" />
-          </div>
+          <Link to="recipe" className="md:flex items-center gap-2 hover:scale-105 transition-all cursor-pointer">
+        
+              <p className="text-primary">See All</p>
+              <ArrowRight className="text-primary" />
+          
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {dishes.map((dishId) => (
-            <RecipeCard key={dishId} dishId={dishId} />
+          {recipes.map((recipe) => (
+            <RecipeCard key={recipe._id} recipe={recipe} />
           ))}
         </div>
       </div>
