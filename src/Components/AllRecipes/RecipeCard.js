@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 import auth from "../../Firebase/Firebase";
@@ -11,7 +11,6 @@ export default function RecipeCard({ recipe }) {
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
-
   const creatorId = recipe.userId;
   const creatorEmail = recipe.user;
 
@@ -98,45 +97,60 @@ export default function RecipeCard({ recipe }) {
       });
   };
 
-
-
- 
-
-  const handleViewRecipeClick =async (id,count) => {
+  const handleViewRecipeClick = async (id, count, data) => {
     if (!user) {
       toast("Please log in to view recipe details.");
       return;
     }
 
     if (user.email === creatorEmail) {
-     await UpdateHooks(`http://localhost:5000/api/v1/recipes/updateRecipes/${id}`,{watchCount:count});
+      await UpdateHooks(
+        `http://localhost:5000/api/v1/recipes/updateRecipes/${id}`,
+        { watchCount: count }
+      );
       navigate(`/recipe-details/${recipe._id}`);
       return;
     }
-    if (userData.coin < 10) {
-      const confirmPurchase = window.confirm(
-        "You don't have enough coins. Do you want to purchase coins?"
-      );
-      if (confirmPurchase) {
-        navigate("/coins");
+    const exist = data?.purchase?.find((item) => item === user?.email);
+
+    if (!exist) {
+      if (userData.coin < 10) {
+        const confirmPurchase = window.confirm(
+          "You don't have enough coins. Do you want to purchase coins?"
+        );
+        if (confirmPurchase) {
+          navigate("/coins");
+        }
+        return;
       }
-      return;
     }
+
     const confirmSpend = window.confirm(
-      "Do you want to spend 10 coins to view this recipe?"
+      "Do you want to spend 10 coins to view. first time this recipe?"
     );
     if (confirmSpend) {
-      console.log(count)
-      await updateUserCoins(userData._id, userData.coin - 10);
-      toast("You have successfully spent 10 coins to view this recipe.");
-      await updateCreatorCoins(creatorId, creatorEmail);
-      await UpdateHooks(`http://localhost:5000/api/v1/recipes/updateRecipes/${id}`,{watchCount:count});
+      const isPurchase = data?.purchase?.find((item) => item === user?.email);
+      if (isPurchase) {
+        await UpdateHooks(
+          `http://localhost:5000/api/v1/recipes/updateRecipes/${id}`,
+          { watchCount: count }
+        );
+        navigate(`/recipe-details/${recipe._id}`);
+      } else {
+        await updateUserCoins(userData._id, userData.coin - 10);
+        toast("You have successfully spent 10 coins to view this recipe.");
+        await updateCreatorCoins(creatorId, creatorEmail);
+        await UpdateHooks(
+          `http://localhost:5000/api/v1/recipes/updateRecipes/${id}`,
+          { watchCount: count, purchase: [...data?.purchase, user?.email] }
+        );
+
+        navigate(`/recipe-details/${recipe._id}`);
+      }
+
       navigate(`/recipe-details/${recipe._id}`);
-      
     }
-
   };
-
 
   return (
     <>
@@ -166,7 +180,13 @@ export default function RecipeCard({ recipe }) {
 
             <button
               className="inline-flex h-8 w-full sm:w-auto items-center justify-center gap-1 whitespace-nowrap rounded bg-primary px-3 text-xs font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none"
-              onClick={()=>handleViewRecipeClick(recipe?._id,recipe?.watchCount+1)}
+              onClick={() =>
+                handleViewRecipeClick(
+                  recipe?._id,
+                  recipe?.watchCount + 1,
+                  recipe
+                )
+              }
             >
               <span>View Recipes!</span>
             </button>
