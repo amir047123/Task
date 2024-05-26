@@ -1,8 +1,7 @@
-// src/components/Navbar/Navbar.js
 
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import logo from "../../assets/Logo/Logo.png";
-import { HandCoins, Phone, ShoppingCart } from "lucide-react";
+import { HandCoins, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   useAuthState,
@@ -13,8 +12,6 @@ import auth from "../../Firebase/Firebase";
 import { toast } from "react-toastify";
 
 export default function Navbar() {
-  // const { user, handleSignInWithGoogle, handleSignOut } =
-  //   useContext(AuthContext);
   const [signOut] = useSignOut(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -161,12 +158,14 @@ const info = { email:email,img:img,name:name,coin:50 };
                   <button
                     onClick={async() => {
                       await signOut();
+                      localStorage.removeItem("accessToken");
                       toast("Sign Out successful")
                     }}
                     className="text-slate-700 hover:border-primary  hover:bg-primary hover:text-white transition duration-150 p-1 rounded-md"
                   >
                     Sign Out
                   </button>
+
                 </>
               ) : (
                 <button
