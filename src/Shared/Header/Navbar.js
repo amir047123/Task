@@ -182,6 +182,7 @@ const info = { email:email,img:img,name:name,coin:50 };
                   <button
                     onClick={async() => {
                       await signOut();
+                      localStorage.removeItem("accessToken");
                       toast("Sign Out successful")
                       window.location.reload();
 
@@ -190,6 +191,7 @@ const info = { email:email,img:img,name:name,coin:50 };
                   >
                     Sign Out
                   </button>
+
                 </>
               ) : (
                 <button
