@@ -4,7 +4,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import auth from "../../Firebase/Firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { User } from "lucide-react";
 import GetSingleUserHook from "../../Hooks/GetSingleUserHook";
 export default function AddRecipesForm() {
   const [title, setTitle] = useState("");
@@ -16,7 +15,6 @@ export default function AddRecipesForm() {
   const inputFileRef = useRef(null);
   const [user] = useAuthState(auth);
   const singleUserData = GetSingleUserHook();
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,16 +32,20 @@ export default function AddRecipesForm() {
         category,
         recipeDetails,
         user: user.email,
-        userId:singleUserData._id
+        userId: singleUserData._id,
+        userName:user.displayName,
       };
 
       const response = await axios.post(
         "http://localhost:5000/api/v1/recipes/addRecipes",
-        formData
+        formData,{
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          }
+        }
       );
 
       toast.success("Recipe added successfully!");
-
       setTitle("");
       setRecipeImage(null);
       setYoutubeVideo("");

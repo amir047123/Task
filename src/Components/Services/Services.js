@@ -1,4 +1,5 @@
 import { ChefHat, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Services() {
   return (
@@ -18,9 +19,11 @@ export default function Services() {
             from classic favorites to innovative gastronomic creations.
           </p>
           <div>
+          <Link to="coins">
             <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary">
-              <span>Buy Coin</span>
+           <span>Buy Coin</span>
             </button>
+            </Link>
           </div>
         </div>
 
@@ -36,9 +39,11 @@ export default function Services() {
             </div>
 
             <div>
+              <Link to="recipe">
               <strong className="rounded border  cursor-pointer border-primary bg-primary px-3 py-1.5 text-[10px] font-medium text-white hover:scale-105 transition-all">
                 Recipes
               </strong>
+              </Link>
 
               <h3 className="mt-4 text-lg font-medium sm:text-xl">
                 <a href="#" className="hover:underline">
