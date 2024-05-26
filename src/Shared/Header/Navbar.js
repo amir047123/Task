@@ -1,5 +1,5 @@
 
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/Logo/Logo.png";
 import { HandCoins, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,12 +10,14 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../Firebase/Firebase";
 import { toast } from "react-toastify";
+import CountUp from "react-countup";
 
 export default function Navbar() {
   const [signOut] = useSignOut(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [user] = useAuthState(auth);
+  const [userData, setUserData] = useState(null);
 
   
   const handleSignUp = async () => {
@@ -40,6 +42,29 @@ const info = { email:email,img:img,name:name,coin:50 };
         });
     })
   };
+
+
+  const loadUserData = (email) => {
+    fetch(`http://localhost:5000/api/v1/user/by-email?email=${email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          setUserData(data.data);
+        } else {
+          toast("Failed to load user data");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+        toast("Error fetching user data");
+      });
+  };
+
+  useEffect(() => {
+    if (user?.email) {
+      loadUserData(user.email);
+    }
+  }, [user])
 
   return (
     <>
@@ -160,6 +185,8 @@ const info = { email:email,img:img,name:name,coin:50 };
                       await signOut();
                       localStorage.removeItem("accessToken");
                       toast("Sign Out successful")
+                      window.location.reload();
+
                     }}
                     className="text-slate-700 hover:border-primary  hover:bg-primary hover:text-white transition duration-150 p-1 rounded-md"
                   >
@@ -174,9 +201,9 @@ const info = { email:email,img:img,name:name,coin:50 };
                 >
                   <img
                     src="https://www.svgrepo.com/show/355037/google.svg"
-                    class="w-5 h-5"
+                    className="w-5 h-5"
                     alt="Google Icon"
-                  ></img>
+                  />
                   Sign In
                 </button>
               )}
@@ -186,7 +213,7 @@ const info = { email:email,img:img,name:name,coin:50 };
               >
                 <HandCoins size={23} />
                 <span className="absolute -right-1.5 -top-1.5 inline-flex items-center justify-center gap-1 rounded-full border-2 border-white bg-pink-500 px-1.5 text-sm text-white">
-                  2<span className="sr-only"> new items </span>
+               <CountUp end={userData?.coin} duration={2}></CountUp><span className="sr-only"> new items </span>
                 </span>
               </a>
             </div>

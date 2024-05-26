@@ -17,7 +17,7 @@ export default function SuccessStory() {
           </div>
 
           <div className="mt-8 sm:mt-12">
-            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:divide-x sm:divide-gray-100">
+            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:divide-x sm:divide-primary">
               <div className="flex flex-col px-4 py-8 text-center">
                 <dt className="order-last text-lg font-medium text-gray-500">
                   Total Catagories

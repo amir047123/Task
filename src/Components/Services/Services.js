@@ -24,7 +24,7 @@ export default function Services() {
           </div>
         </div>
 
-        <article className="rounded-xl bg-white p-4 ring ring-indigo-50 sm:p-6 lg:p-8 ">
+        <article className="rounded-xl bg-white p-4  sm:p-6 lg:p-8  ring-primary ring-1">
           <div className="flex items-start sm:gap-8">
             <div
               className="hidden sm:grid sm:size-20 sm:shrink-0 sm:place-content-center sm:rounded-full sm:border-2 sm:border-primary"
