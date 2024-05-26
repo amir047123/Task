@@ -16,40 +16,12 @@ export default function RecipeCard({ recipe }) {
 
   console.log("creatoremail", creatorEmail);
 
-  const handleViewRecipeClick = () => {
-    if (!user) {
-      toast("Please log in to view recipe details.");
-      return;
-    }
 
-    if (user.email === creatorEmail) {
-      navigate(`/recipe-details/${recipe._id}`);
-      return;
+  useEffect(() => {
+    if (user?.email) {
+      loadUserData(user.email);
     }
-    if (userData.coin < 10) {
-      const confirmPurchase = window.confirm(
-        "You don't have enough coins. Do you want to purchase coins?"
-      );
-      if (confirmPurchase) {
-        navigate("/coins");
-      }
-      return;
-    }
-    const confirmSpend = window.confirm(
-      "Do you want to spend 10 coins to view this recipe?"
-    );
-    if (confirmSpend) {
-      
-
-      updateUserCoins(userData._id, userData.coin - 10);
-      toast("You have successfully spent 10 coins to view this recipe.");
-      navigate(`/recipe-details/${recipe._id}`);
-      updateCreatorCoins(creatorId, creatorEmail);
-
-      
-    }
-  };
-
+  }, [user]);
 
   const loadUserData = (email) => {
     fetch(`http://localhost:5000/api/v1/user/by-email?email=${email}`)
@@ -130,13 +102,42 @@ export default function RecipeCard({ recipe }) {
 
 
 
+ 
 
-
-  useEffect(() => {
-    if (user?.email) {
-      loadUserData(user.email);
+  const handleViewRecipeClick = () => {
+    if (!user) {
+      toast("Please log in to view recipe details.");
+      return;
     }
-  }, [user]);
+
+    if (user.email === creatorEmail) {
+      navigate(`/recipe-details/${recipe._id}`);
+      return;
+    }
+    if (userData.coin < 10) {
+      const confirmPurchase = window.confirm(
+        "You don't have enough coins. Do you want to purchase coins?"
+      );
+      if (confirmPurchase) {
+        navigate("/coins");
+      }
+      return;
+    }
+    const confirmSpend = window.confirm(
+      "Do you want to spend 10 coins to view this recipe?"
+    );
+    if (confirmSpend) {
+      
+
+      updateUserCoins(userData._id, userData.coin - 10);
+      toast("You have successfully spent 10 coins to view this recipe.");
+    
+      updateCreatorCoins(creatorId, creatorEmail);
+      navigate(`/recipe-details/${recipe._id}`);
+      
+    }
+  };
+
 
   return (
     <>
