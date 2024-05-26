@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/Logo/Logo.png";
-import { HandCoins, Phone } from "lucide-react";
+import { HandCoins, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   useAuthState,
@@ -18,30 +18,25 @@ export default function Navbar() {
   const [user] = useAuthState(auth);
   const [userData, setUserData] = useState(null);
 
-  
   const handleSignUp = async () => {
-    await signInWithGoogle().then(data=>{
+    await signInWithGoogle().then((data) => {
       const name = data?.user?.displayName;
       const img = data?.user?.photoURL;
       const email = data?.user?.email;
 
-const info = { email:email,img:img,name:name,coin:50 };
-      fetch(
-        "http://localhost:5000/api/v1/user/addUser",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(info),
-        }
-      )
+      const info = { email: email, img: img, name: name, coin: 50 };
+      fetch("http://localhost:5000/api/v1/user/addUser", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(info),
+      })
         .then((res) => res.json())
         .then((data) => {
           localStorage.setItem("accessToken", data?.token);
-          toast("Login Successful")
+          toast("Login Successful");
         });
-    })
+    });
   };
-
 
   const loadUserData = (email) => {
     fetch(`http://localhost:5000/api/v1/user/by-email?email=${email}`)
@@ -63,7 +58,7 @@ const info = { email:email,img:img,name:name,coin:50 };
     if (user?.email) {
       loadUserData(user.email);
     }
-  }, [user])
+  }, [user]);
 
   return (
     <>
@@ -76,8 +71,8 @@ const info = { email:email,img:img,name:name,coin:50 };
             </div>
           </div>
           <div className="col-span-2 flex items-center justify-end gap-6 md:col-span-4 lg:col-span-6">
-            <div className="flex items-center justify-end gap-4">
-              {/* Add your social media icons here */}
+            <div className="flex items-center justify-end gap-4 text-white">
+              <MapPin /> Khulna , Bangladesh
             </div>
           </div>
         </div>
@@ -180,18 +175,16 @@ const info = { email:email,img:img,name:name,coin:50 };
                     title={user?.displayName}
                   />
                   <button
-                    onClick={async() => {
+                    onClick={async () => {
                       await signOut();
                       localStorage.removeItem("accessToken");
-                      toast("Sign Out successful")
+                      toast("Sign Out successful");
                       window.location.reload();
-
                     }}
                     className="text-slate-700 hover:border-primary  hover:bg-primary hover:text-white transition duration-150 p-1 rounded-md"
                   >
                     Sign Out
                   </button>
-
                 </>
               ) : (
                 <button
@@ -212,7 +205,8 @@ const info = { email:email,img:img,name:name,coin:50 };
               >
                 <HandCoins size={23} />
                 <span className="absolute -right-1.5 -top-1.5 inline-flex items-center justify-center gap-1 rounded-full border-2 border-white bg-pink-500 px-1.5 text-sm text-white">
-               <CountUp end={userData?.coin} duration={2}></CountUp><span className="sr-only"> new items </span>
+                  <CountUp end={userData?.coin} duration={2}></CountUp>
+                  <span className="sr-only"> new items </span>
                 </span>
               </a>
             </div>

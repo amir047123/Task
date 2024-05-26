@@ -41,7 +41,7 @@ export default function DevInfo() {
               </div>
 
               <div class="flex flex-col gap-1 mt-3   ">
-                <p class=" font-bold">Skills</p>
+                <p class=" font-bold">Tools</p>
                 <div className=" text-xs">
                   <li>
                     Git || GitHub || Chrome Dev Tool || Postman || Jira || Slack{" "}

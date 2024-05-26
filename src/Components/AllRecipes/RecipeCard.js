@@ -6,6 +6,7 @@ import auth from "../../Firebase/Firebase";
 import { Eye } from "lucide-react";
 import CountUp from "react-countup";
 import UpdateHooks from "../../Hooks/UpdateHooks";
+import Reaction from "../Reaction/Reaction";
 
 export default function RecipeCard({ recipe }) {
   const [user] = useAuthState(auth);
@@ -154,17 +155,14 @@ export default function RecipeCard({ recipe }) {
 
   return (
     <>
-      {/*<!-- Component: E-commerce card --> */}
-      <div className="overflow-hidden rounded ring-primary ring-1 bg-white text-slate-500 shadow-md shadow-slate-200 sm:w-72 border-primary">
-        {/*  <!-- Image --> */}
+      <div className="overflow-hidden rounded ring-primary ring-1 bg-white text-slate-500 shadow-md shadow-slate-200 sm:w-72 border-primary relative">
         <figure>
           <img
             src={recipe?.recipeImage}
             alt="card image"
-            className="aspect-video w-full"
+            className="aspect-video w-full ease-in-out hover:scale-105"
           />
         </figure>
-        {/*  <!-- Body--> */}
         <div className="p-4">
           <header className="mb-2">
             <h3 className="text-lg font-medium text-black">
@@ -174,19 +172,21 @@ export default function RecipeCard({ recipe }) {
             </h3>
           </header>
         </div>
-        {/*  <!-- Action base sized basic button --> */}
-        <div className=" p-4 pt-0">
-          <div className="flex  justify-between items-center   gap-5">
-            <div className="flex items-center gap-1 ">
-              <Eye className="w-5 h-5 text-red-600 " />
-              <CountUp
-                className=" text-red-500"
-                end={recipe?.watchCount}
-              ></CountUp>
-            </div>
-
+        {/* <div className=" p-4 pt-0">
+          <div className="flex  justify-end items-center   gap-5">
             <button
-              className="inline-flex justify-center items-center h-10  max-w-sm px-6 text-sm font-medium tracking-wide text-white rounded bg-primary transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none"
+              className="inline-flex justify-center ease-in-out hover:scale-105 items-center h-10  max-w-sm px-6 text-sm font-medium tracking-wide text-white rounded bg-primary transition duration-300 hover:bg-black focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none"
+             
+            >
+              <span>View Recipe!</span>
+            </button>
+          </div>
+        </div> */}
+        <div className=" flex justify-between items-center p-4">
+          <Reaction recipeId={recipe?._id}></Reaction>
+
+          <div className="flex items-center gap-1 ">
+            <div
               onClick={() =>
                 handleViewRecipeClick(
                   recipe?._id,
@@ -194,13 +194,19 @@ export default function RecipeCard({ recipe }) {
                   recipe
                 )
               }
+              className="  bg-primary text-white px-3 py-1 cursor-pointer hover:bg-black rounded-md gap-1"
             >
-              <span>View Recipes!</span>
-            </button>
+              <p>View Recipe !</p>
+            </div>
           </div>
         </div>
+
+        <div className=" absolute top-1 left-1 text-xs    flex justify-end items-center gap-1">
+          <Eye className="w-3 h-3 text-red-600 " />
+
+          <CountUp className=" text-red-500" end={recipe?.watchCount}></CountUp>
+        </div>
       </div>
-      {/*<!-- End E-commerce card --> */}
     </>
   );
 }

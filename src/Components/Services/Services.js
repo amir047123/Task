@@ -20,8 +20,8 @@ export default function Services() {
           </p>
           <div>
           <Link to="coins">
-            <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary">
-           <span>Buy Coin</span>
+            <button className="inline-flex ease-in-out hover:scale-105 hover:bg-black items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary">
+           <span>Buy Coins</span>
             </button>
             </Link>
           </div>
@@ -46,10 +46,10 @@ export default function Services() {
               </Link>
 
               <h3 className="mt-4 text-lg font-medium sm:text-xl">
-                <a href="#" className="hover:underline">
-                  {" "}
-                  Your Hub for Delicious Recipes{" "}
-                </a>
+                <Link to="recipe" className="hover:underline">
+                 
+                  Your Hub for Delicious Recipes
+                </Link>
               </h3>
 
               <p className="mt-1 text-sm text-gray-700">
