@@ -114,16 +114,14 @@ export default function RecipeCard({ recipe }) {
     }
     const exist = data?.purchase?.find((item) => item === user?.email);
 
-    if (!exist) {
-      if (userData.coin < 10) {
-        const confirmPurchase = window.confirm(
-          "You don't have enough coins. Do you want to purchase coins?"
-        );
-        if (confirmPurchase) {
-          navigate("/coins");
-        }
-        return;
+    if (!exist && userData.coin < 10) {
+      const confirmPurchase = window.confirm(
+        "You don't have enough coins. Do you want to purchase coins?"
+      );
+      if (confirmPurchase) {
+        navigate("/coins");
       }
+      return;
     }
 
     const confirmSpend = window.confirm(
