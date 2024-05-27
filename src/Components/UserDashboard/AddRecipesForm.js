@@ -33,6 +33,7 @@ export default function AddRecipesForm() {
         recipeDetails,
         user: user.email,
         userId: singleUserData._id,
+        userName:user.displayName,
       };
 
       const response = await axios.post(

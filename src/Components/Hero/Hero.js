@@ -31,13 +31,13 @@ export default function Hero() {
             <p>Dive into a world of culinary wonders with FlavorFusion.</p>
             <div className="flex justify-start items-center gap-5">
               <Link to="recipe">
-                <button className="inline-flex items-center justify-center h-12 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary hover:bg-primary-700 hover:scale-105">
+                <button className="inline-flex items-center justify-center h-12 gap-2 px-6 hover:bg-black text-sm font-medium tracking-wide text-white transition duration-300 rounded-full focus-visible:outline-none whitespace-nowrap bg-primary hover:bg-primary-700 hover:scale-105">
                   <span>See Recipes</span>
                 </button>
               </Link>
               <p className="">Add Recipes</p>
               <div
-                className="bg-primary p-3 text-white rounded-full cursor-pointer transition duration-300 ease-in-out hover:scale-105"
+                className="bg-primary p-3 text-white rounded-full cursor-pointer transition duration-300 ease-in-out hover:scale-105 hover:bg-black"
                 onClick={handleAddRecipeClick}
               >
                 {user ? (
@@ -56,11 +56,11 @@ export default function Hero() {
           <img src={hero} className="w-[400px]" alt="Hero Image" />
 
           <div className="flex justify-center items-center gap-5 absolute bottom-5 left-8">
-            <div className="border p-2 flex justify-center items-center gap-2 bg-secondary rounded-md">
+            <div className="border p-2 flex justify-center items-center gap-2 bg-secondary rounded-md ring-primary ring-1">
               <img src={buttonImageOne} className="w-11" alt="Spicy Noodles" />
               <p>Spicy Noodles</p>
             </div>
-            <div className="border p-2 flex justify-center items-center gap-2 bg-secondary rounded-md">
+            <div className="border p-2 flex justify-center items-center gap-2 bg-secondary rounded-md  ring-primary ring-1">
               <img
                 src={buttonImageOne}
                 className="w-11"

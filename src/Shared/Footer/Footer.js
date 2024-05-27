@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../../assets/Logo/Logo.png";
+import { Facebook, Instagram, Linkedin } from "lucide-react";
 
 // Footer component
 const Footer = () => {
@@ -36,9 +37,9 @@ const Footer = () => {
               <FooterNav
                 title="Useful links"
                 links={[
-                  { label: "Recipes", href: "#" },
-                  { label: "Catagories", href: "#" },
-                  { label: "Buy Coin", href: "#" },
+                  { label: "Recipes", href: "recipe" },
+                  { label: "Catagories", href: "recipe" },
+                  { label: "Buy Coin", href: "coins" },
                 ]}
               />
             </nav>
@@ -50,7 +51,7 @@ const Footer = () => {
               <FooterNav
                 title="Help Menu"
                 links={[
-                  { label: "Documentation", href: "#" },
+                
 
                   { label: "FAQ's", href: "#" },
                   { label: "Help Center", href: "#" },
@@ -77,9 +78,33 @@ const Footer = () => {
 
       {/* Copyright section */}
       <div className="py-4 text-sm border-t  bg-primary">
-        <div className="container px-6 mx-auto text-center text-white">
+        <div className="container px-6 mx-auto flex justify-between text-white">
           <div className="col-span-2 md:col-span-4 lg:col-span-6">
             <p>&copy; 2024 foodi. All rights reserved.</p>
+          </div>
+
+          <div className="flex justify-center items-center gap-2">
+            <a
+              href="https://www.facebook.com/amirfaysal047/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook className="cursor-pointer" />
+            </a>
+            <a
+              href="https://www.instagram.com/amir__faysal/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram className="cursor-pointer" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/amir-faysal/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Linkedin className="cursor-pointer" />
+            </a>
           </div>
         </div>
       </div>

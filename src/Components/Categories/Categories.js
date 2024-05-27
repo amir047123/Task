@@ -16,7 +16,6 @@ export default function Categories() {
   });
 
   useEffect(() => {
-    // Fetch data for Rice Dishes
     fetch(
       "http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Rice Dishes"
     )
@@ -31,7 +30,6 @@ export default function Categories() {
         console.error("Error fetching Rice Dishes data:", error);
       });
 
-    // Fetch data for Fish Dishes
     fetch(
       "http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Fish Dishes"
     )
@@ -46,7 +44,6 @@ export default function Categories() {
         console.error("Error fetching Fish Dishes data:", error);
       });
 
-    // Fetch data for Meat Dishes
     fetch(
       "http://localhost:5000/api/v1/recipes/specific/?fieldName=category&fieldValue=Meat Dishes"
     )
@@ -87,7 +84,14 @@ export default function Categories() {
           title="Meat Dishes"
           count={categoriesData.meat.length}
         />
-        {/* Add more CategoryCards if needed */}
+      </div>
+
+      <div className="  flex justify-center">
+        <Link to="recipe">
+          <button class="inline-flex items-center ease-in-out hover:scale-105 justify-center h-10 gap-2 px-6 text-sm font-medium tracking-wide text-white transition duration-300 rounded focus-visible:outline-none whitespace-nowrap bg-primary hover:bg-black focus:bg-emerald-700 disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none">
+            <span>View All Categories</span>
+          </button>
+        </Link>
       </div>
     </div>
   );
@@ -96,16 +100,16 @@ export default function Categories() {
 function CategoryCard({ image, title, count }) {
   return (
     <div className="flex flex-col justify-center items-center bg-white px-4 py-5 rounded-2xl shadow-md border w-full sm:w-1/2 md:w-1/3 lg:w-1/4 ring-primary ring-1">
-      <div className="bg-customCardBg p-2 rounded-full">
-        <img src={image} alt={title} />
+      <div className="bg-customCardBg p-2 rounded-full ring-primary ring-1 ease-in-out hover:scale-105 ">
+        <img src={image} alt={title} className=" " />
       </div>
       <div className="text-center mt-4">
         <Link to="recipe">
-        
           <h1 className="font-bold cursor-pointer transition-all hover:scale-105">
             {title}
           </h1>
         </Link>
+
         <CountUp end={count} duration={20} />
       </div>
     </div>
